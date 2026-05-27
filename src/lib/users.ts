@@ -338,6 +338,10 @@ async function readStore(): Promise<AuthStore> {
 }
 
 async function writeStore(store: AuthStore) {
+  if (process.env.VERCEL) {
+    throw new Error("Configure DATABASE_URL na Vercel para salvar usuários e sessões.");
+  }
+
   await mkdir(dataDir, { recursive: true });
   await writeFile(storePath, JSON.stringify(store, null, 2), "utf-8");
 }

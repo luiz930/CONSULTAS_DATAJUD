@@ -309,6 +309,10 @@ async function readStore(): Promise<AlertStore> {
 }
 
 async function writeStore(store: AlertStore) {
+  if (process.env.VERCEL) {
+    throw new Error("Configure DATABASE_URL na Vercel para salvar alertas e notificações.");
+  }
+
   await mkdir(dataDir, { recursive: true });
   await writeFile(storePath, JSON.stringify(store, null, 2), "utf-8");
 }
