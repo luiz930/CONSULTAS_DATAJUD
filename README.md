@@ -46,6 +46,7 @@ Opcionalmente crie `.env.local`:
 
 ```bash
 DATAJUD_API_KEY="sua-chave"
+DATABASE_URL="postgresql://usuario:senha@host:5432/banco?sslmode=require"
 OPENAI_API_KEY="sua-chave-openai"
 OPENAI_MODEL="gpt-4.1-mini"
 SMTP_HOST="smtp.seudominio.com"
@@ -60,14 +61,14 @@ NEXT_PUBLIC_ADSENSE_CONTENT_SLOT="0000000000"
 ```
 
 Se `DATAJUD_API_KEY` não existir, o app usa a chave pública vigente documentada pelo CNJ no momento da implementação.
+Em produção na Vercel, configure `DATABASE_URL` ou `POSTGRES_URL` para persistir login, planos, créditos, sessões, alertas e notificações. Sem banco, o JSON local só é adequado para desenvolvimento.
 Se `OPENAI_API_KEY` não existir, os botões de explicação continuam funcionando com regras locais simples.
 Se o SMTP não estiver configurado, os alertas continuam aparecendo dentro do site e o envio por e-mail fica pendente.
 Se `NEXT_PUBLIC_ADSENSE_CLIENT` e os slots não existirem, o site mostra apenas o fallback discreto de publicidade.
 
 ## Autenticação e planos
 
-O MVP usa persistência local em `data/auth-store.json`, ignorada pelo Git. Esse arquivo guarda usuários, sessões e contadores diários.
-Os alertas usam `data/alerts-store.json`, também ignorado pelo Git.
+O MVP usa PostgreSQL quando `DATABASE_URL`, `POSTGRES_URL` ou `POSTGRES_PRISMA_URL` estiver configurado. Em desenvolvimento sem banco, usa `data/auth-store.json` e `data/alerts-store.json`, ignorados pelo Git.
 
 - Grátis: 5 consultas/dia, sem explicação por IA.
 - Pro: 100 consultas/dia, IA, histórico e monitoramento.
