@@ -18,7 +18,7 @@ export const metadata: Metadata = {
   description: "Consulta de processos públicos por número CNJ e nome da parte.",
 };
 
-const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT;
+const adsenseClient = process.env.NEXT_PUBLIC_ADSENSE_CLIENT || "ca-pub-8195201333386005";
 
 export default function RootLayout({
   children,
